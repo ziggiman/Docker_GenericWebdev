@@ -1,5 +1,5 @@
 # ON REGISTRY KNOWN AS 
-See VERSION file
+ziggingdock/docker_genericwebdev:[tag] (tag corresponds to branch-name)
 
 # DESCRIPTION
 Generic PHP7 environment. Including:  
