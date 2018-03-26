@@ -1,6 +1,8 @@
 # ON REGISTRY KNOWN AS 
 ziggingdock/docker-generic-webdev:[tag] (tag corresponds to branch-name)
 
+---
+
 # DESCRIPTION
 Generic PHP7 environment. Including:  
 * Ubuntu 16.04 LTS
@@ -10,6 +12,7 @@ Generic PHP7 environment. Including:
 For basic projects you can simply use it "as is".  
 For more complex projects you can include it as a base-image in a Dockerfile distributed with the project ("FROM").
 
+---
 
 # USAGE
 
