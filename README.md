@@ -89,7 +89,7 @@ To make use of it you need to do a couple of things.
 Source: https://medium.com/@pablofmorales/xdebug-with-docker-and-phpstorm-786da0d0fad2  
 
 1) Enable xdebug-module for the webserver in the container. You need the following in your Dockerfile to enable the module:  
-```RUN ln -s /etc/php/7.1/mods-available/xdebug.ini /etc/php/7.1/apache2/conf.d/20-xdebug.ini``` 
+```RUN ln -s /etc/php/7.2/mods-available/xdebug.ini /etc/php/7.2/apache2/conf.d/20-xdebug.ini``` 
 
 2) Set at couple of env-vars on your docker image.  
 Notice: ```PHP_IDE_CONFIG``` is required by PhpStorm and can be left out if you use another IDE (which might require some other envvars).  
