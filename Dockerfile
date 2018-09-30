@@ -1,11 +1,13 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # Add the repository for PHP7.2
 # Notice: Have to set LC_ALL to avoid stuff blowing up
+
 RUN apt-get update -y \
-	&& apt-get upgrade -y \
-	&& apt-get install -y python-software-properties software-properties-common \
-	&& LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php
+	&& apt-get upgrade -y
+
+ENV TZ=Europe/Copenhagen
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 RUN apt-get update && apt-get install -y \
 	libapache2-mod-php7.2 \
