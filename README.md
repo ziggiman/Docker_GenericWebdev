@@ -127,6 +127,9 @@ php_value xdebug.remote_port 9000
 4a) Language -> PHP -> Debug -> Xdebug section: Enable Xdebug on port 9000 (or what is used in xdebug.remote_port directive). Allow external connections.  
 4b) Language -> PHP -> Servers: Add a set of settings. The "Name" must match the one used in the PHP_IDE_CONFIG envvar (in this example: SomeName). Add a mapping between the location of document root on your host and to the absolute path on the docker image. Like e:\phpstormprojects\project\htdocs --> /var/www/awesomeproject. Host is localhost:9000.  
 
+Solving problems with XDebug: 
+In "PhpStorm -> Run -> Web Server Debug Validation" you can get valuable info in case things are not working properly!
+
 
 Don't forget to click the "start listening" button to make sure your IDE is in fact listening. Found in the topbar. 
 
