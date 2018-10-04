@@ -97,39 +97,50 @@ Notice: ```PHP_IDE_CONFIG``` is required by PhpStorm and can be left out if you 
 docker-compose.yml (set for the service):  
 ```
 environment:
-   XDEBUG_CONFIG: "remote_host=[IP of your host]"
-   PHP_IDE_CONFIG: "serverName=[SomeName]"
+      - XDEBUG_REMOTE_ENABLE=1
+      - XDEBUG_REMOTE_AUTOSTART=1
+      - XDEBUG_REMOTE_CONNECT_BACK=0
+      - XDEBUG_REMOTE_HANDLER=dbgp
+      - XDEBUG_PROFILER_ENABLE=0
+      - XDEBUG_PROFILER_OUTPUT_DIR=/var/www/somepath/docker/XDebugProfilerOutput
+      - XDEBUG_IDEKEY=[see-note-below]
+      - XDEBUG_REMOTE_PORT=[see-note-below]
+      - XDEBUG_REMOTE_HOST=[see-note-below]
+      
 ```
+XDEBUG_IDEKEY: Some unique key (like: "PHPSTORM")  
 
-```XDEBUG_CONFIG="remote_host=[IP of your host]"``` is used for defining which IP xdebug should connect back to.  
-I suggest you set ```XDEBUG_CONFIG: "remote_host=$DOCKER_HOST_ADDR"``` and then define this envvar in your OS. It seems like these might be recommended values:  
-```
+XDEBUG_REMOTE_PORT: Default is 9000  
+
+XDEBUG_REMOTE_HOST:  
 OSX: docker.for.mac.localhost (special DNS name for OSX)  
 Windows: 10.0.75.1 (bridge on Windows)  
-```
+
+You could consider definining some of the above as envvars on your system so that docker-compose.yml will just use the value of these. 
 
 
-```PHP_IDE_CONFIG: "serverName=[SomeName]"``` is required when using PhpStorm for specifying which path-mapping the IDE should be using. Can be left out if you use a different IDE! 
-
-3) Configure xdebug. Can also be done by injecting settings into xdebug.ini but in this case we append it to the vhost.  
+3) Configure xdebug. It should be possible to set a XDEBUG_CONFIG envvar which contains all settings. It does not (always) seem to work. Instead we set a number of envvars in docker-compose and use these values in the vhost.  
+That seems to be a safe-shot!   
 Notice that the syntax is slightly different if you decide to use xdebug.ini (using "=").  
 ```
-php_value xdebug.remote_enable 1
-php_value xdebug.remote_autostart 1
-php_value xdebug.remote_connect_back 0
-php_value xdebug.remote_handler dbgp
-php_value xdebug.profiler_enable 0
-php_value xdebug.profiler_output_dir "/path/for/profiler/files/if/enabled"
-php_value xdebug.remote_port 9000
+    php_value xdebug.remote_enable ${XDEBUG_REMOTE_ENABLE}
+    php_value xdebug.remote_autostart ${XDEBUG_REMOTE_AUTOSTART}
+    php_value xdebug.remote_connect_back ${XDEBUG_REMOTE_CONNECT_BACK}
+    php_value xdebug.remote_handler ${XDEBUG_REMOTE_HANDLER}
+    php_value xdebug.remote_port ${XDEBUG_REMOTE_PORT}
+    php_value xdebug.remote_host ${XDEBUG_REMOTE_HOST}
+    php_value xdebug.profiler_enable ${XDEBUG_PROFILER_ENABLE}
+    php_value xdebug.profiler_output_dir ${XDEBUG_PROFILER_OUTPUT_DIR}
+    php_value xdebug.idekey ${XDEBUG_IDEKEY}
 ```
 
 4) IDE config. This example is for PhpStorm v2017.2.2.  
 4a) Language -> PHP -> Debug -> Xdebug section: Enable Xdebug on port 9000 (or what is used in xdebug.remote_port directive). Allow external connections.  
 4b) Language -> PHP -> Servers: Add a set of settings. The "Name" must match the one used in the PHP_IDE_CONFIG envvar (in this example: SomeName). Add a mapping between the location of document root on your host and to the absolute path on the docker image. Like e:\phpstormprojects\project\htdocs --> /var/www/awesomeproject. Host is localhost:9000.  
 
-Solving problems with XDebug: 
-In "PhpStorm -> Run -> Web Server Debug Validation" you can get valuable info in case things are not working properly!
 
+IMPORTANT HINT FOR PHPSTORM:  
+In "PhpStorm -> Run -> Web Server Debug Validation" you can get valuable info in case things are not working properly!  
 
 Don't forget to click the "start listening" button to make sure your IDE is in fact listening. Found in the topbar. 
 
