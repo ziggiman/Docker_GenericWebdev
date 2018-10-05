@@ -5,9 +5,9 @@ ziggingdock/docker-generic-webdev:[tag] (tag corresponds to branch-name)
 
 # DESCRIPTION
 Generic PHP7 environment. Including:  
-* Ubuntu 16.04 LTS
+* Ubuntu 18.04 LTS
 * Apache2
-* PHP7 + XDebug
+* PHP7.2 + XDebug v2.6
 
 For basic projects you can simply use it "as is".  
 For more complex projects you can include it as a base-image in a Dockerfile distributed with the project ("FROM").
