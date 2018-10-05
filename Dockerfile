@@ -33,8 +33,10 @@ RUN apt-get update && apt-get install -y \
 	subversion
 
 # Install xdebug (not enabled or configured! See README)
+# IMPORTANT NOTE: We're using a specific version and not the master-branch!
+# Master is often an unstable alpha which is not even working! 
 RUN cd /tmp \
-	&& git clone git://github.com/xdebug/xdebug.git \
+	&& git clone -b xdebug_2_6 git://github.com/xdebug/xdebug.git \
 	&& cd xdebug \
 	&& phpize \
 	&& ./configure --enable-xdebug \
